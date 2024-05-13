@@ -1,16 +1,17 @@
 import com.github.javafaker.Faker;
-import org.checkerframework.checker.index.qual.PolyUpperBound;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import pages.ShopRegisterResultPage;
+import pages.ShopRegistrationPage;
 
 import java.util.Random;
 
-public class ShopRegistration {
+import static java.lang.Thread.sleep;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class ShopRegistrationTest {
 
     ChromeDriver driver;
 
@@ -27,18 +28,28 @@ public class ShopRegistration {
     }
 
     @Test
-    public void successRegistrAllValidFields(){
+    public void successRegistrAllValidFields() throws InterruptedException {
         Faker faker = new Faker();
         String randomEmail = faker.internet().emailAddress();
-
-
-        //Input all data
-
-
-        //Text "Your registration completed" is displayed
-        WebElement emailInputField = driver.findElement(By.id(""));
-        emailInputField.sendKeys(randomEmail);
-        //Button "Continue" is displayed
+        //Choose gender
+        ShopRegistrationPage shopRegistrationPage = new ShopRegistrationPage(driver);
+        shopRegistrationPage.chooseGenderFemale();
+        //Enter first name
+        shopRegistrationPage.enterValueToFirstName("John");
+        //Last name
+        shopRegistrationPage.enterValueToLastName("Pi");
+        //Email
+        shopRegistrationPage.enterValueToEmail(randomEmail);
+        //Password
+        shopRegistrationPage.enterValueToPassword("123456");
+        //Confirm password
+        shopRegistrationPage.enterValueToConfirmPassword("123456");
+        //Click on Register button
+        shopRegistrationPage.clickOnRegisterButton();
+        sleep(5000);
+        //Check that text "Your registration completed" is displayed
+        ShopRegisterResultPage resultPage = new ShopRegisterResultPage(driver);
+        assertEquals("Your registration completed", resultPage.getResultText());
     }
 
 
