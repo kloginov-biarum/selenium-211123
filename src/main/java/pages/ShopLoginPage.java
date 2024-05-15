@@ -30,6 +30,12 @@ public class ShopLoginPage {
     @FindBy(css = ".validation-summary-errors>span")
     private WebElement errorMessage;
 
+    @FindBy(css = ".field-validation-error>span")
+    private WebElement emailValidationError;
+
+    @FindBy(css = "[href=\"/passwordrecovery\"]")
+    private WebElement forgotPassLink;
+
     //input value to email input field
     public void enterEmail(String emailValue){
         emailInputField.sendKeys(emailValue);
@@ -50,4 +56,15 @@ public class ShopLoginPage {
         return errorMessage.getText();
     }
 
+    public void clickOnPasswordInputFiled(){
+        passwordInputField.click();
+    }
+
+    public String getEmailValErrorMessageText(){
+        return emailValidationError.getText();
+    }
+
+    public void followForgotPassLink(){
+        forgotPassLink.click();
+    }
 }
